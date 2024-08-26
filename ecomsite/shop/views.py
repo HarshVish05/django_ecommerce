@@ -1,15 +1,21 @@
 from django.shortcuts import render
 from .models import Products
+from django.core.paginator import Paginator
 # Create your views here.
 
 
 def index(request):
     products = Products.objects.all()
     
-    # search 
+    # search - always use pagination below search
     searched_product = request.GET.get('searched_product')
 
     if searched_product != '' and searched_product is not None:
         products = products.filter(title__icontains = searched_product)
+        
+    # pagination
+    paginator = Paginator(products, 3)
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
 
     return render(request, 'shop/index.html', context= {'products': products})
