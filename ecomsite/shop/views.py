@@ -19,3 +19,13 @@ def index(request):
     products = paginator.get_page(page)
 
     return render(request, 'shop/index.html', context= {'products': products})
+
+
+def detail(request, id):
+    product = Products.objects.get(id = id)
+    
+    return render(request, 'shop/detail.html', context= {'product': product})
+
+
+def checkout(request):
+    return render(request, 'shop/checkout.html')
