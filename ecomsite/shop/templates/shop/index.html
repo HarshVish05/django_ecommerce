@@ -74,9 +74,7 @@
                     <img src="{{product.image}}" class="card-img-top">
                     <div class="card-body">
                         <div id="name{{ product.id }}" class="card-title">{{ product.title }}</div>
-                        <div class="card-text">
-                            ₹ {{ product.price }}
-                        </div>
+                        <div id="price{{ product.id }}" class="card-text">{{ product.price }}</div>
                         <a href="{% url "detail" product.id %}" class='btn btn-warning mt-2'>View</a>
                         <button id='{{ product.id }}' class='btn addToCart btn-warning mt-2'>Add To Cart</button>
                     </div>
@@ -127,10 +125,13 @@
 
             quantity = cart[item_id][0] + 1
             cart[item_id][0] = quantity
+            cart[item_id][2] = cart[item_id][2] + parseFloat(document.getElementById('price'+item_id).innerHTML)
+
         }else{
             quantity = 1
             name = document.getElementById("name" + item_id).innerHTML
-            cart[item_id] = [quantity, name]
+            price = parseFloat(document.getElementById('price'+item_id).innerHTML)
+            cart[item_id] = [quantity, name, price]
         }
 
         console.log(cart)

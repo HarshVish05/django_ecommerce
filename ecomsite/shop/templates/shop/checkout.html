@@ -50,6 +50,11 @@
                       <label for="inputZip" class="form-label">Zip</label>
                       <input type="text" class="form-control" id="zipcode" name="zipcode">
                     </div>
+
+                    <div class="col-md-2">
+                      <label for="inputZip" class="form-label">Amount to be Paid: </label>
+                      <input type="text" readonly class="form-control" id="total" name="total">
+                    </div>
                 
                     <div class="col-12">
                       <button type="submit" class="btn btn-primary">Place Order</button>
@@ -68,14 +73,21 @@
         cart = JSON.parse(localStorage.getItem('cart'))
     }
 
+    let orderTotal = 0
     for(item in cart){
         let name = cart[item][1]
         let quantity = cart[item][0]
+        let price = cart[item][2]
+        orderTotal += price
 
-        itemString = `<li class="list-group-item">${name}-${quantity}</li>`
+        itemString = `<li class="list-group-item">${name} Qty: <span class=''>${quantity}</span> Total: <span class='badge text-bg-warning'>₹ ${price}</span></li>`
+        
         $('#item_list').append(itemString)
     }
 
+    totalPrice = `<li class="list-group-item d-flex justify-content-end align-items-center"><b>Your Total:</b> ₹ ${orderTotal}</li>`
+    $("#total").val(parseFloat(orderTotal))
+    $('#item_list').append(totalPrice)
     {% comment %}  to populate the items input field{% endcomment %}
     $('#items').val(JSON.stringify(cart))
 
